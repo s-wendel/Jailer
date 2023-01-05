@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 public enum JailerBlock {
     Stone(new LootTable<>(
             new LootTable.Entry<>(BlockDrop.Stone, 1)
-    ), 10),
+    ), 30),
     Unbreakable(new LootTable(), 100000000);
 
     public final int durability;

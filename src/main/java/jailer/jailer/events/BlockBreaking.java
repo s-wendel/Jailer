@@ -15,8 +15,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import com.comphenix.protocol.events.PacketContainer;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -40,6 +43,13 @@ public class BlockBreaking implements Listener {
         JailerBlock block = JailerBlock.valueOf(blockName);
 
         breakingBlocks.put(event.getBlock().getLocation(), block.durability);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        if(player.hasPotionEffect(PotionEffectType.SLOW_DIGGING)) player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
+        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, Integer.MAX_VALUE - 10, -1, false, false));
     }
 
     @EventHandler
@@ -69,7 +79,6 @@ public class BlockBreaking implements Listener {
         int progress = breakingBlocks.get(blockPosition) - miningSpeed;
 
 
-        Bukkit.broadcastMessage(block.toString());
         if (progress <= 0) {
             // the block is broken
             return;
@@ -86,13 +95,12 @@ public class BlockBreaking implements Listener {
         PacketContainer packet = manager.createPacket(BLOCK_BREAK_ANIMATION);
 
 
-        int animationStage = (progress / jailerblock.durability) * 9;
+        double animationStage =Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
         packet.getIntegers().write(0, event.getPlayer().getEntityId());
         packet.getBlockPositionModifier().write(0, new BlockPosition(blockPosition.toVector()));
-        packet.getIntegers().write(1, animationStage);
+        packet.getIntegers().write(1, (int) animationStage);
 
         breakingBlocks.put(blockPosition, progress);
-        Bukkit.broadcastMessage(Integer.toString(progress));
 
         try {
             manager.sendServerPacket(event.getPlayer(), packet);

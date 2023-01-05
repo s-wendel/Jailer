@@ -20,10 +20,10 @@ public class Formatter {
 
 
     public static Component text(String text) {
-        return format.deserialize(text);
+        return format.deserialize("<i:false>" + text);
     }
     public static String color(String text) {
-        return ChatColor.translateAlternateColorCodes('&', legacyFormat.serialize(format.deserialize(text)));
+        return ChatColor.translateAlternateColorCodes('&', legacyFormat.serialize(format.deserialize("<i:false>" + text)));
     }
 
 }
