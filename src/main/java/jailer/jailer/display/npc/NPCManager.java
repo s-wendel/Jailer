@@ -1,6 +1,6 @@
 package jailer.jailer.display.npc;
 
-import me.mrenxo.xo.data.storage.StorageManager;
+import jailer.jailer.data.storage.StorageManager;
 import net.citizensnpcs.api.event.NPCRightClickEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

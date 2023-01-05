@@ -3,4 +3,5 @@ version: ${project.version}
 main: jailer.jailer.Jailer
 api-version: 1.19
 authors: [ shwendel, MrEnx0 ]
+depend: [ Citizens ]
 description: Jailer
