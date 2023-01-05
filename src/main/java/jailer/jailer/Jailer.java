@@ -1,5 +1,6 @@
 package jailer.jailer;
 
+import jailer.jailer.blocks.LootTable;
 import jailer.jailer.data.PlayerData;
 import jailer.jailer.data.serialize.GsonSerializer;
 import jailer.jailer.data.serialize.PlayerSerializer;
@@ -24,7 +25,6 @@ public final class Jailer extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
         instance = this;
     }
 
