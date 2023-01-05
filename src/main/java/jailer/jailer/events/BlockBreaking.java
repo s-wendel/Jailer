@@ -6,6 +6,7 @@ import com.comphenix.protocol.wrappers.BlockPosition;
 import de.tr7zw.nbtapi.NBTBlock;
 import de.tr7zw.nbtapi.NBTItem;
 import jailer.jailer.blocks.JailerBlock;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -30,10 +31,13 @@ public class BlockBreaking implements Listener {
     @EventHandler
     public void onBlockBreak(BlockDamageEvent event) {
 
-        if (!breakingBlocks.containsKey(event.getBlock().getLocation())) return;
+        if (breakingBlocks.containsKey(event.getBlock().getLocation())) return;
 
         NBTBlock nbt = new NBTBlock(event.getBlock());
-        JailerBlock block = JailerBlock.valueOf(nbt.getData().getOrCreateCompound("JailerData").getString("BlockName"));
+        String blockName = "Stone";
+        if (nbt.getData().hasTag("block_name")) blockName = nbt.getData().getString("block_name");
+
+        JailerBlock block = JailerBlock.valueOf(blockName);
 
         breakingBlocks.put(event.getBlock().getLocation(), block.durability);
     }
@@ -44,17 +48,28 @@ public class BlockBreaking implements Listener {
 
         Block block = player.getTargetBlock(Set.of(Material.AIR), 5);
         Location blockPosition = block.getLocation();
+        if (!breakingBlocks.containsKey(blockPosition)) return;
+        ItemStack itemStack = player.getInventory().getItemInMainHand();
+        int miningSpeed = 1;
+        if (itemStack.getType() != Material.AIR) {
+            NBTItem nbt = new NBTItem(itemStack);
+            if (nbt.hasTag("stats")) {
+                if (nbt.getCompound("stats").hasTag("MiningSpeed"))
+                    miningSpeed = nbt.getCompound("stats").getInteger("MiningSpeed");
+            }
+        }
 
-        ItemStack itemStack = player.getItemInHand();
-        NBTItem nbt = new NBTItem(itemStack);
         NBTBlock nbtBlock = new NBTBlock(block);
         
-        Integer miningSpeed = nbt.getCompound("JailerData").getCompound("Stats").getInteger("MiningSpeed");
-        JailerBlock jailerblock = JailerBlock.valueOf(nbtBlock.getData().getOrCreateCompound("JailerData").getString("BlockName"));
+
+        String blockName = "Stone";
+        if (nbtBlock.getData().hasTag("block_name")) blockName = nbtBlock.getData().getString("block_name");
+
+        JailerBlock jailerblock = JailerBlock.valueOf(blockName);
         int progress = breakingBlocks.get(blockPosition) - miningSpeed;
 
 
-
+        Bukkit.broadcastMessage(block.toString());
         if (progress <= 0) {
             // the block is broken
             return;
@@ -74,10 +89,16 @@ public class BlockBreaking implements Listener {
         int animationStage = (progress / jailerblock.durability) * 9;
         packet.getIntegers().write(0, event.getPlayer().getEntityId());
         packet.getBlockPositionModifier().write(0, new BlockPosition(blockPosition.toVector()));
-        packet.getBytes().write(0, (byte) animationStage);
+        packet.getIntegers().write(1, animationStage);
 
         breakingBlocks.put(blockPosition, progress);
+        Bukkit.broadcastMessage(Integer.toString(progress));
 
+        try {
+            manager.sendServerPacket(event.getPlayer(), packet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
