@@ -1,0 +1,6 @@
+name: Jailer
+version: ${project.version}
+main: jailer.jailer.Jailer
+api-version: 1.19
+authors: [ shwendel, MrEnx0 ]
+description: Jailer
