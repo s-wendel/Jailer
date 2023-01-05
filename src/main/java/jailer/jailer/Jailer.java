@@ -1,13 +1,29 @@
 package jailer.jailer;
 
+import jailer.jailer.data.PlayerData;
+import jailer.jailer.data.serialize.GsonSerializer;
+import jailer.jailer.data.serialize.PlayerSerializer;
+import jailer.jailer.data.storage.FileStorageProvider;
+import jailer.jailer.data.storage.StorageManager;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Jailer extends JavaPlugin {
 
     private static Jailer instance;
 
+    public static StorageManager<Player, PlayerData> playerData;
+
     @Override
     public void onEnable() {
+
+        playerData = new StorageManager(
+                new FileStorageProvider(
+                        new PlayerSerializer(),
+                        new GsonSerializer(),
+                        this.getDataFolder())
+        );
+
         instance = this;
     }
 
