@@ -10,27 +10,19 @@ import org.bukkit.ChatColor;
 public class Formatter {
 
 
-    private final MiniMessage format;
-    private final LegacyComponentSerializer legacyFormat;
+    private static final MiniMessage format= MiniMessage.builder()
+            .tags(TagResolver.builder()
+                    .resolver(StandardTags.color())
+                    .resolvers(StandardTags.decorations()).build())
+            .build();
+    private static final LegacyComponentSerializer legacyFormat = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().character('&').build();
 
-    public Formatter(TagResolver... resolvers) {
-        TagResolver.Builder resolver = TagResolver.builder()
-                .resolver(StandardTags.color())
-                .resolvers(StandardTags.decorations());
 
-        for (TagResolver resolve : resolvers) {
-            resolver.resolvers(resolve);
-        }
-        this.format = MiniMessage.builder()
-                .tags(resolver.build())
-                .build();
-        legacyFormat = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().character('&').build();
-    }
 
-    public Component text(String text) {
+    public static Component text(String text) {
         return format.deserialize(text);
     }
-    public String color(String text) {
+    public static String color(String text) {
         return ChatColor.translateAlternateColorCodes('&', legacyFormat.serialize(format.deserialize(text)));
     }
 
