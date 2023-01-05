@@ -21,7 +21,6 @@ public final class Jailer extends JavaPlugin {
                             getDataFolder())
             );
 
-    public static final Formatter format = new Formatter();
 
     @Override
     public void onEnable() {

@@ -10,21 +10,21 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static jailer.jailer.display.Formatter.*;
+
 public class ScoreboardManager implements Listener {
 
     private HashMap<Player, FastBoard> scoreboards;
-    private Formatter format;
 
 
-    public ScoreboardManager(Formatter format) {
+    public ScoreboardManager() {
         this.scoreboards = new HashMap<>();
-        this.format = format;
     }
 
     public void reloadScoreboard(Player player) {
         FastBoard scoreboard = scoreboards.get(player);
 
-        scoreboard.updateTitle(format.color("<#2b95ff><bold>SERVER!!!"));
+        scoreboard.updateTitle(color("<#2b95ff><bold>SERVER!!!"));
 
         ArrayList<String> lines = new ArrayList<>();
 
