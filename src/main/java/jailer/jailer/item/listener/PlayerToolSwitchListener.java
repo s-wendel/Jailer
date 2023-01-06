@@ -19,12 +19,12 @@ public class PlayerToolSwitchListener implements Listener {
         Player player = event.getPlayer();
 
         ItemStack item = player.getInventory().getItem(event.getNewSlot());
+        PlayerData playerData = Jailer.getInstance().playerData.getData(player);
 
         if(item == null) {
+            playerData.setTool(null);
             return;
         }
-
-        PlayerData playerData = Jailer.getInstance().playerData.getData(player);
 
         playerData.setTool(JailerItemFactory.jailerEquipmentItemFromItemStack(item));
     }
