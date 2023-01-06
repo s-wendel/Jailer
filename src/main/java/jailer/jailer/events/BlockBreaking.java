@@ -56,7 +56,7 @@ public class BlockBreaking implements Listener {
     public void onBreakingBlock(PlayerAnimationEvent event){
         Player player = event.getPlayer();
 
-        Block block = player.getTargetBlock(Set.of(Material.AIR), 5);
+        Block block = player.getTargetBlock(Set.of(Material.AIR, Material.WATER, Material.LAVA), 5);
         Location blockPosition = block.getLocation();
         if (!breakingBlocks.containsKey(blockPosition)) return;
         ItemStack itemStack = player.getInventory().getItemInMainHand();
@@ -80,7 +80,9 @@ public class BlockBreaking implements Listener {
 
 
         if (progress <= 0) {
-            // the block is broken
+            event.getPlayer().playSound(event.getPlayer().getLocation(), jailerblock.sound, 1f, 1f);
+            block.breakNaturally();
+            breakingBlocks.remove(blockPosition);
             return;
         }
 
@@ -95,7 +97,8 @@ public class BlockBreaking implements Listener {
         PacketContainer packet = manager.createPacket(BLOCK_BREAK_ANIMATION);
 
 
-        double animationStage =Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
+
+        double animationStage = Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
         packet.getIntegers().write(0, event.getPlayer().getEntityId());
         packet.getBlockPositionModifier().write(0, new BlockPosition(blockPosition.toVector()));
         packet.getIntegers().write(1, (int) animationStage);
