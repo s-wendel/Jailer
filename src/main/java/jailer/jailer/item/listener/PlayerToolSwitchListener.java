@@ -2,6 +2,8 @@ package jailer.jailer.item.listener;
 
 import jailer.jailer.Jailer;
 import jailer.jailer.data.PlayerData;
+import jailer.jailer.item.JailerEquipmentItem;
+import jailer.jailer.item.JailerItem;
 import jailer.jailer.item.JailerItemFactory;
 import jailer.jailer.item.JailerStat;
 import org.bukkit.Bukkit;
@@ -26,7 +28,13 @@ public class PlayerToolSwitchListener implements Listener {
             return;
         }
 
-        playerData.setTool(JailerItemFactory.jailerEquipmentItemFromItemStack(item));
+        JailerItem jailerItem = JailerItemFactory.jailerItemFromItemStack(item);
+
+        if (jailerItem instanceof JailerEquipmentItem) {
+            playerData.setTool( (JailerEquipmentItem) jailerItem);
+        }
+
+
     }
 
 }

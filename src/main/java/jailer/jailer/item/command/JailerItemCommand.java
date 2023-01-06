@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import java.util.Map;
+
 public class JailerItemCommand implements CommandExecutor {
 
     @Override
@@ -23,8 +25,10 @@ public class JailerItemCommand implements CommandExecutor {
         Inventory inventory = Bukkit.createInventory(null, 54, "Jailer's Items :)");
         int index = 0;
 
-        for(JailerItem item : JailerItemFactory.getAllJailerItems()) {
-            inventory.setItem(index, item.toItemStack());
+
+
+        for(Map.Entry<String, JailerItem> item : JailerItemFactory.classes.entrySet()) {
+            inventory.setItem(index, item.getValue().toItemStack());
             index++;
         }
 

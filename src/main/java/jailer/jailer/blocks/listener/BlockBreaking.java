@@ -13,7 +13,11 @@ import jailer.jailer.item.JailerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockSupport;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,6 +28,8 @@ import org.bukkit.inventory.ItemStack;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -93,9 +99,11 @@ public class BlockBreaking implements Listener {
 
 
         if (progress <= 0) {
-            event.getPlayer().playSound(event.getPlayer().getLocation(), jailerblock.sound, 1f, 1f);
-            block.breakNaturally();
+            player.playSound(event.getPlayer().getLocation(), jailerblock.sound, 1f, 1f);
+            block.setType(Material.AIR);
+            nbtBlock.getData().removeKey("block_name");
             breakingBlocks.remove(blockPosition);
+            player.getInventory().addItem(jailerblock.lootTable.roll().item.toItemStack());
             return;
         }
 

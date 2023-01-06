@@ -23,7 +23,6 @@ public class PlayerDataListener implements Listener {
 
         PlayerData playerData = Jailer.getInstance().playerData.getData(player);
         playerData.setPlayer(player);
-        playerData.setTool(JailerItemFactory.jailerEquipmentItemFromItemStack(player.getInventory().getItemInMainHand()));
     }
 
     @EventHandler
