@@ -14,7 +14,7 @@ public class FileStorageProvider<I, T> implements StorageProvider<I, T> {
     private final Serializer<I, String> indexer;
 
     private final File saveFolder;
-    public FileStorageProvider(Serializer<T, String> serializer, Serializer<I, String> indexer, File saveFolder) {
+    public FileStorageProvider(Serializer<I, String> indexer, Serializer<T, String> serializer, File saveFolder) {
         this.serializer = serializer;
         this.indexer = indexer;
         this.saveFolder = saveFolder;

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class PlayerData {
 
-    private final Player player;
+    private transient Player player;
     private transient JailerEquipmentItem tool;
 
 
@@ -24,5 +24,7 @@ public class PlayerData {
     public void setTool(JailerEquipmentItem tool) {
         this.tool = tool;
     }
+
+    public void setPlayer(Player player) { if (this.player == null) this.player = player; }
 
 }

@@ -15,7 +15,7 @@ public class PlayerToolAutoEquipListener implements Listener {
         Player player = event.getPlayer();
 
         PlayerData playerData = Jailer.getInstance().playerData.getData(player);
-        playerData.setTool(JailerItemFactory.jailerEquipmentItemFromItemStack(player.getInventory().getItemInMainHand()));
+
     }
 
 }

@@ -2,6 +2,8 @@ package jailer.jailer.data.listener;
 
 import jailer.jailer.Jailer;
 import jailer.jailer.data.PlayerData;
+import jailer.jailer.item.JailerItemFactory;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,6 +20,10 @@ public class PlayerDataListener implements Listener {
         } else {
             Jailer.getInstance().playerData.loadData(player);
         }
+
+        PlayerData playerData = Jailer.getInstance().playerData.getData(player);
+        playerData.setPlayer(player);
+        playerData.setTool(JailerItemFactory.jailerEquipmentItemFromItemStack(player.getInventory().getItemInMainHand()));
     }
 
     @EventHandler
