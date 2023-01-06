@@ -1,6 +1,7 @@
 package jailer.jailer;
 
 import jailer.jailer.data.PlayerData;
+import jailer.jailer.data.listener.PlayerDataListener;
 import jailer.jailer.data.listener.PlayerToolAutoEquipListener;
 import jailer.jailer.data.serialize.GsonSerializer;
 import jailer.jailer.data.serialize.PlayerSerializer;
@@ -34,6 +35,7 @@ public final class Jailer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockBreaking(), this);
         getServer().getPluginManager().registerEvents(new PlayerToolAutoEquipListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerToolSwitchListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDataListener(), this);
     }
 
     @Override
