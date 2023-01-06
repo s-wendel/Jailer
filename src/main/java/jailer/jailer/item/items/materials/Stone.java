@@ -7,16 +7,17 @@ import org.bukkit.Material;
 
 import java.util.Arrays;
 
-public class Cobblestone extends JailerItem {
+public class Stone extends JailerItem {
 
-    public Cobblestone() {
+    public Stone() {
         super(
-                "Cobblestone",
-                Material.COBBLESTONE,
-                Arrays.asList("It's stone but it's cobbled?"),
+                "Stone",
+                Material.STONE,
+                Arrays.asList("Yea yea yea yea"),
                 JailerRarity.COMMON,
                 ItemType.MATERIAL,
-                2
+                6
         );
     }
+
 }
