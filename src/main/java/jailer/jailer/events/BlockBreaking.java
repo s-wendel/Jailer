@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import de.tr7zw.nbtapi.NBTBlock;
 import de.tr7zw.nbtapi.NBTItem;
+import jailer.jailer.blocks.BrokenBlock;
 import jailer.jailer.blocks.JailerBlock;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -22,13 +23,15 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Set;
 
 import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATION;
 
 public class BlockBreaking implements Listener {
 
-    private static HashMap<Location, Integer> breakingBlocks = new HashMap<>();
+    private static HashMap<Location, BrokenBlock> breakingBlocks = new HashMap<>();
+    private static JailerBlock defaultBlock = JailerBlock.UNBREAKABLE;
 
 
     @EventHandler
@@ -37,12 +40,10 @@ public class BlockBreaking implements Listener {
         if (breakingBlocks.containsKey(event.getBlock().getLocation())) return;
 
         NBTBlock nbt = new NBTBlock(event.getBlock());
-        String blockName = "Stone";
-        if (nbt.getData().hasTag("block_name")) blockName = nbt.getData().getString("block_name");
+        JailerBlock block = defaultBlock;
+        if (nbt.getData().hasTag("block_name")) block = JailerBlock.valueOf(nbt.getData().getString("block_name"));
 
-        JailerBlock block = JailerBlock.valueOf(blockName);
-
-        breakingBlocks.put(event.getBlock().getLocation(), block.durability);
+        breakingBlocks.put(event.getBlock().getLocation(), new BrokenBlock(event.getBlock().getLocation(), block.durability));
     }
 
     @EventHandler
@@ -58,7 +59,11 @@ public class BlockBreaking implements Listener {
 
         Block block = player.getTargetBlock(Set.of(Material.AIR, Material.WATER, Material.LAVA), 5);
         Location blockPosition = block.getLocation();
+
         if (!breakingBlocks.containsKey(blockPosition)) return;
+
+        BrokenBlock brokenBlock = breakingBlocks.get(blockPosition);
+
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         int miningSpeed = 1;
         if (itemStack.getType() != Material.AIR) {
@@ -70,13 +75,12 @@ public class BlockBreaking implements Listener {
         }
 
         NBTBlock nbtBlock = new NBTBlock(block);
-        
 
-        String blockName = "Stone";
-        if (nbtBlock.getData().hasTag("block_name")) blockName = nbtBlock.getData().getString("block_name");
 
-        JailerBlock jailerblock = JailerBlock.valueOf(blockName);
-        int progress = breakingBlocks.get(blockPosition) - miningSpeed;
+        JailerBlock jailerblock = defaultBlock;
+        if (nbtBlock.getData().hasTag("block_name")) jailerblock = JailerBlock.valueOf(nbtBlock.getData().getString("block_name"));
+
+        int progress = brokenBlock.health - miningSpeed;
 
 
         if (progress <= 0) {
@@ -92,18 +96,26 @@ public class BlockBreaking implements Listener {
 
         if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
 
+        double animationStage = Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
+
+        brokenBlock.health = progress;
+
+
+        if (brokenBlock.oldAnimation == (int) animationStage) return;
+        brokenBlock.oldAnimation = (int) animationStage;
+
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
         PacketContainer packet = manager.createPacket(BLOCK_BREAK_ANIMATION);
 
 
 
-        double animationStage = Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
-        packet.getIntegers().write(0, event.getPlayer().getEntityId());
+
+        packet.getIntegers().write(0, new Random().nextInt(99999999));
         packet.getBlockPositionModifier().write(0, new BlockPosition(blockPosition.toVector()));
         packet.getIntegers().write(1, (int) animationStage);
 
-        breakingBlocks.put(blockPosition, progress);
+
 
         try {
             manager.sendServerPacket(event.getPlayer(), packet);
