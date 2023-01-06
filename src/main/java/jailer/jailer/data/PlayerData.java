@@ -37,18 +37,23 @@ public class PlayerData {
 
     public void setTool(JailerEquipmentItem tool) {
         this.tool = tool;
-        
+
         for (JailerStat stat : JailerStat.values()) {
             stats.get(stat).remove("tool");
         }
 
-        if (tool == null) return;
+        if (tool == null) {
+            updateCache();
+            return;
+        }
+
         Map<JailerStat, Double> toolStats = tool.getStats();
 
         for(JailerStat stat : toolStats.keySet()) {
 
             setStat(stat, new JailerStatData(tool.getName(), tool.getMaterial(), toolStats.get(stat)));
         }
+
     }
 
     public void updateCache() {
