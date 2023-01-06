@@ -10,14 +10,14 @@ import java.util.Map;
 
 public class LitTorch extends JailerEquipmentItem {
 
-
     public LitTorch() {
         super(
                 "Lit Torch",
                 Material.TORCH,
                 Arrays.asList("The torch is so lit omg!!!"),
-                JailerRarity.COMMON,
+                JailerRarity.RARE,
                 ItemType.PICKAXE,
+                50,
                 0,
                 "So Hot",
                 Arrays.asList("Automatically smelts mined items"),

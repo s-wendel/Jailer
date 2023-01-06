@@ -17,8 +17,8 @@ public abstract class JailerEquipmentItem extends JailerItem {
     protected Map<JailerStat, Double> stats;
     protected int enchantmentSlots;
 
-    public JailerEquipmentItem(String name, Material material, List<String> description, JailerRarity rarity, ItemType itemType, int enchantmentSlots, String abilityName, List<String> abilityDescription, Map<JailerStat, Double> stats) {
-        super(name, material, description, rarity, itemType);
+    public JailerEquipmentItem(String name, Material material, List<String> description, JailerRarity rarity, ItemType itemType, int sellPrice, int enchantmentSlots, String abilityName, List<String> abilityDescription, Map<JailerStat, Double> stats) {
+        super(name, material, description, rarity, itemType, sellPrice);
 
         this.enchantmentSlots = enchantmentSlots;
         this.abilityName = abilityName;
@@ -58,7 +58,7 @@ public abstract class JailerEquipmentItem extends JailerItem {
 
         if(hasAbility()) {
             lore.add("");
-            lore.add("<gold><bold>ABILITY</bold> " + rarity.getColor() + abilityName);
+            lore.add("<gold><bold>ABILITY</bold> <yellow>" + abilityName);
 
             for(String line : abilityDescription) {
                 lore.add("<dark_gray>➡ <white>" + line);
@@ -75,6 +75,11 @@ public abstract class JailerEquipmentItem extends JailerItem {
             }
 
             lore.add(line.substring(0, line.length() - 1));
+        }
+
+        if(sellPrice > 0) {
+            lore.add("");
+            lore.add("<gray>Sold for <gold>⛃<yellow>" + sellPrice);
         }
 
         lore.add("");
