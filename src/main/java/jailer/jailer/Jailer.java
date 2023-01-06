@@ -18,10 +18,10 @@ public final class Jailer extends JavaPlugin {
     private static Jailer instance;
 
     public final StorageManager<Player, PlayerData> playerData =
-            new StorageManager(
-                    new FileStorageProvider(
+            new StorageManager<Player, PlayerData>(
+                    new FileStorageProvider<Player, PlayerData>(
                             new PlayerSerializer(),
-                            new GsonSerializer(),
+                            new GsonSerializer<PlayerData>(),
                             getDataFolder())
             );
 

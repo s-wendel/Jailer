@@ -4,6 +4,7 @@ import jailer.jailer.Jailer;
 import jailer.jailer.data.PlayerData;
 import jailer.jailer.item.JailerItemFactory;
 import jailer.jailer.item.JailerStat;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

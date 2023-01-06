@@ -5,8 +5,11 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import de.tr7zw.nbtapi.NBTBlock;
 import de.tr7zw.nbtapi.NBTItem;
+import jailer.jailer.Jailer;
 import jailer.jailer.blocks.BrokenBlock;
 import jailer.jailer.blocks.JailerBlock;
+import jailer.jailer.data.PlayerData;
+import jailer.jailer.item.JailerStat;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -56,6 +59,7 @@ public class BlockBreaking implements Listener {
     @EventHandler
     public void onBreakingBlock(PlayerAnimationEvent event){
         Player player = event.getPlayer();
+        PlayerData playerData = Jailer.getInstance().playerData.getData(player);
 
         Block block = player.getTargetBlock(Set.of(Material.AIR, Material.WATER, Material.LAVA), 5);
         Location blockPosition = block.getLocation();
@@ -66,19 +70,18 @@ public class BlockBreaking implements Listener {
 
         ItemStack itemStack = player.getInventory().getItemInMainHand();
         int miningSpeed = 1;
-        if (itemStack.getType() != Material.AIR) {
-            NBTItem nbt = new NBTItem(itemStack);
-            if (nbt.hasTag("stats")) {
-                if (nbt.getCompound("stats").hasTag("MiningSpeed"))
-                    miningSpeed = nbt.getCompound("stats").getInteger("MiningSpeed");
-            }
-        }
+        if (playerData.getTool() != null)
+            miningSpeed += playerData.getTool().getStats().get(JailerStat.MINING_SPEED).intValue();
+
 
         NBTBlock nbtBlock = new NBTBlock(block);
 
 
         JailerBlock jailerblock = defaultBlock;
         if (nbtBlock.getData().hasTag("block_name")) jailerblock = JailerBlock.valueOf(nbtBlock.getData().getString("block_name"));
+
+        if (playerData.getTool() != null)
+            if (jailerblock.itemType != playerData.getTool().getItemType()) return;
 
         int progress = brokenBlock.health - miningSpeed;
 
@@ -89,6 +92,7 @@ public class BlockBreaking implements Listener {
             breakingBlocks.remove(blockPosition);
             return;
         }
+
 
         double distanceX = blockPosition.getX() - player.getLocation().getX();
         double distanceY = blockPosition.getY() - player.getLocation().getY();
