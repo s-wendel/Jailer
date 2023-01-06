@@ -8,6 +8,7 @@ import jailer.jailer.data.storage.FileStorageProvider;
 import jailer.jailer.data.storage.StorageManager;
 import jailer.jailer.display.Formatter;
 import jailer.jailer.events.BlockBreaking;
+import jailer.jailer.item.command.JailerItemCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,8 +30,10 @@ public final class Jailer extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        getServer().getPluginManager().registerEvents(new BlockBreaking(), this);
 
+        getCommand("items").setExecutor(new JailerItemCommand());
+
+        getServer().getPluginManager().registerEvents(new BlockBreaking(), this);
     }
 
     @Override

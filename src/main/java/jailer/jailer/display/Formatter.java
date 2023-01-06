@@ -10,14 +10,12 @@ import org.bukkit.ChatColor;
 public class Formatter {
 
 
-    private static final MiniMessage format= MiniMessage.builder()
+    private static final MiniMessage format = MiniMessage.builder()
             .tags(TagResolver.builder()
                     .resolver(StandardTags.color())
                     .resolvers(StandardTags.decorations()).build())
             .build();
     private static final LegacyComponentSerializer legacyFormat = LegacyComponentSerializer.builder().useUnusualXRepeatedCharacterHexFormat().hexColors().character('&').build();
-
-
 
     public static Component text(String text) {
         return format.deserialize("<i:false>" + text);
