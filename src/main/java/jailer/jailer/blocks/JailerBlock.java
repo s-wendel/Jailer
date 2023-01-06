@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 
 public enum JailerBlock {
+
     STONE(new LootTable<>(
             new LootTable.Entry<>(BlockDrop.STONE, 1)
     ), BLOCK_STONE_BREAK,30),

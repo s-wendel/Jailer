@@ -1,6 +1,7 @@
 package jailer.jailer.item.command;
 
 import jailer.jailer.item.JailerEquipmentItem;
+import jailer.jailer.item.JailerItem;
 import jailer.jailer.item.JailerItemFactory;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -22,7 +23,7 @@ public class JailerItemCommand implements CommandExecutor {
         Inventory inventory = Bukkit.createInventory(null, 54, "Jailer's Items :)");
         int index = 0;
 
-        for(JailerEquipmentItem item : JailerItemFactory.getAllEquipmentItems()) {
+        for(JailerItem item : JailerItemFactory.getAllJailerItems()) {
             inventory.setItem(index, item.toItemStack());
             index++;
         }

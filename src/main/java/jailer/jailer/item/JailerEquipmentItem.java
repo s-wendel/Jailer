@@ -1,6 +1,7 @@
 package jailer.jailer.item;
 
 import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.nbtapi.NBTItem;
 import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -94,10 +95,10 @@ public abstract class JailerEquipmentItem extends JailerItem {
                 .setLore(lore.toArray(new String[0]))
                 .toItemStack();
 
-        ReadWriteNBT nbt = NBT.itemStackToNBT(item);
-        nbt.setString("name", name);
+        NBTItem nbtItem = new NBTItem(item);
+        nbtItem.setString("name", name);
 
-        return item;
+        return nbtItem.getItem();
     }
 
 }

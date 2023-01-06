@@ -8,7 +8,6 @@ public class PlayerData {
     private transient Player player;
     private transient JailerEquipmentItem tool;
 
-
     public PlayerData(Player player) {
         this.player = player;
     }
