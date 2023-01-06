@@ -69,10 +69,7 @@ public class BlockBreaking implements Listener {
         BrokenBlock brokenBlock = breakingBlocks.get(blockPosition);
 
         ItemStack itemStack = player.getInventory().getItemInMainHand();
-        int miningSpeed = 1;
-        if (playerData.getTool() != null)
-            miningSpeed += playerData.getTool().getStats().get(JailerStat.MINING_SPEED).intValue();
-
+        double miningSpeed = Jailer.getInstance().playerData.getData(player).getStatValue(JailerStat.MINING_SPEED);
 
         NBTBlock nbtBlock = new NBTBlock(block);
 
@@ -83,7 +80,7 @@ public class BlockBreaking implements Listener {
         if (playerData.getTool() != null)
             if (jailerblock.itemType != playerData.getTool().getItemType()) return;
 
-        int progress = brokenBlock.health - miningSpeed;
+        int progress = brokenBlock.health - (int) miningSpeed;
 
 
         if (progress <= 0) {

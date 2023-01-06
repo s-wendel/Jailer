@@ -20,7 +20,7 @@ public class VeryCoolRock extends JailerEquipmentItem {
                 null,
                 null,
                 Map.of(
-                        JailerStat.MINING_SPEED, 2d,
+                        JailerStat.MINING_SPEED, 1d,
                         JailerStat.FORTUNE, 3d
                 )
         );
