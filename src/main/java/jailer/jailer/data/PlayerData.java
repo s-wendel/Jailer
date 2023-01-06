@@ -3,6 +3,7 @@ package jailer.jailer.data;
 import jailer.jailer.item.JailerEquipmentItem;
 import jailer.jailer.item.JailerStat;
 import jailer.jailer.item.JailerStatData;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -37,9 +38,12 @@ public class PlayerData {
     public void setTool(JailerEquipmentItem tool) {
         this.tool = tool;
 
-        Map<JailerStat, Double> toolStats = tool.getStats();
+        Map<JailerStat, Double> toolStats;
+        if (tool == null) toolStats = new HashMap<>();
+        else toolStats = tool.getStats();
 
         for(JailerStat stat : toolStats.keySet()) {
+
             setStat(stat, new JailerStatData(tool.getName(), tool.getMaterial(), toolStats.get(stat)));
         }
     }
@@ -49,7 +53,7 @@ public class PlayerData {
 
             double value = 0d;
 
-            for(JailerStatData statData : stats.getOrDefault(player, new HashMap<>()).values()) {
+            for(JailerStatData statData : stats.getOrDefault(stat, new HashMap<>()).values()) {
                 value += statData.getValue();
             }
 
@@ -64,7 +68,7 @@ public class PlayerData {
     public void setStat(JailerStat stat, JailerStatData data) {
         Map<String, JailerStatData> statData = stats.getOrDefault(stat, new HashMap<>());
 
-        statData.put(data.getName(), data);
+        statData.put("tool", data);
 
         stats.put(stat, statData);
         updateCache();
