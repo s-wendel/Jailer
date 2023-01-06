@@ -1,4 +1,4 @@
-package jailer.jailer.events;
+package jailer.jailer.blocks.listener;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;

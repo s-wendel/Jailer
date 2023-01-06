@@ -1,20 +1,16 @@
 package jailer.jailer;
 
-import jailer.jailer.blocks.LootTable;
 import jailer.jailer.data.PlayerData;
 import jailer.jailer.data.listener.PlayerToolAutoEquipListener;
 import jailer.jailer.data.serialize.GsonSerializer;
 import jailer.jailer.data.serialize.PlayerSerializer;
 import jailer.jailer.data.storage.FileStorageProvider;
 import jailer.jailer.data.storage.StorageManager;
-import jailer.jailer.display.Formatter;
-import jailer.jailer.events.BlockBreaking;
+import jailer.jailer.blocks.listener.BlockBreaking;
 import jailer.jailer.item.command.JailerItemCommand;
 import jailer.jailer.item.listener.PlayerToolSwitchListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.LinkedHashMap;
 
 public final class Jailer extends JavaPlugin {
 
