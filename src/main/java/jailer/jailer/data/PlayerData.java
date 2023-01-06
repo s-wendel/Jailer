@@ -49,7 +49,7 @@ public class PlayerData {
 
             double value = 0d;
 
-            for(JailerStatData statData : stats.get(stat).values()) {
+            for(JailerStatData statData : stats.getOrDefault(player, new HashMap<>()).values()) {
                 value += statData.getValue();
             }
 

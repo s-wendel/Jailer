@@ -22,6 +22,11 @@ public class JailerItemCommand implements CommandExecutor {
         }
 
         Player player = (Player) sender;
+
+        if(!player.hasPermission("admin")) {
+            return true;
+        }
+
         Inventory inventory = Bukkit.createInventory(null, 54, "Jailer's Items :)");
         int index = 0;
 
