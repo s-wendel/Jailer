@@ -76,7 +76,7 @@ public class BlockBreaking implements Listener {
 
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
-        double miningSpeed = Jailer.getInstance().playerData.getData(player).getStatValue(JailerStat.MINING_SPEED);
+        double miningSpeed = playerData.getStatValue(JailerStat.MINING_SPEED);
 
         NBTBlock nbtBlock = new NBTBlock(block);
 
