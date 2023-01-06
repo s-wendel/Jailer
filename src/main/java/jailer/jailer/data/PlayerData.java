@@ -5,8 +5,13 @@ import org.bukkit.entity.Player;
 
 public class PlayerData {
 
-    private Player player;
+    private final Player player;
     private transient JailerEquipmentItem tool;
+
+
+    public PlayerData(Player player) {
+        this.player = player;
+    }
 
     public Player getPlayer() {
         return player;
