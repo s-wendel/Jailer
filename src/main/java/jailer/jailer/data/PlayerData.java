@@ -1,5 +1,6 @@
 package jailer.jailer.data;
 
+import jailer.jailer.item.ItemType;
 import jailer.jailer.item.JailerEquipmentItem;
 import jailer.jailer.item.JailerStat;
 import jailer.jailer.item.JailerStatData;
@@ -72,6 +73,8 @@ public class PlayerData {
     public double getStatValue(JailerStat stat) {
         return cache.get(stat);
     }
+
+    public ItemType getHeldItemType() { return (this.tool == null ? this.tool.getItemType() : null); }
 
     public void setStat(JailerStat stat, JailerStatData data) {
         Map<String, JailerStatData> statData = stats.getOrDefault(stat, new HashMap<>());

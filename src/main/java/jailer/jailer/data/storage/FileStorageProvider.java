@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class FileStorageProvider<I, T> implements StorageProvider<I, T> {
 
@@ -69,5 +72,17 @@ public class FileStorageProvider<I, T> implements StorageProvider<I, T> {
 
     private File getFile(I index) {
         return new File(saveFolder.getAbsolutePath()  + "/" + indexer.serialize(index));
+    }
+
+
+
+    public List<I> keys() {
+        ArrayList<I> files = new ArrayList<>();
+        for (File file : Objects.requireNonNull(saveFolder.listFiles())) {
+            if (file.isFile()) {
+                files.add(indexer.deserialize(file.getName()));
+            }
+        }
+        return files;
     }
 }

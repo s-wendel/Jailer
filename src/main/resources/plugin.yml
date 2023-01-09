@@ -8,3 +8,6 @@ description: Jailer
 commands:
   items:
     description: Open an inventory of all Jailer Items
+  mine:
+    permission: jailer.admin.mine
+    description: mine command for admins
