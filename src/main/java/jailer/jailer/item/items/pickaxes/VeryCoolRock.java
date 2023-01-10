@@ -28,7 +28,7 @@ public class VeryCoolRock extends JailerEquipmentItem {
     }
 
     @Override
-    public void abilityTrigger(Player player, AbilityAction action) {
+    public void abilityTrigger(AbilityAction action) {
         return;
     }
 }

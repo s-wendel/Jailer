@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 public class LitTorch extends JailerEquipmentItem {
@@ -30,8 +28,8 @@ public class LitTorch extends JailerEquipmentItem {
     }
 
     @Override
-    public void abilityTrigger(Player player, AbilityAction action) {
-        switch(action) {
+    public void abilityTrigger(AbilityAction action) {
+        switch(action.type) {
             case BREAK_BLOCK:
 
                 break;

@@ -1,16 +1,21 @@
 package jailer.jailer.item;
 
-public enum AbilityAction {
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 
-    BREAK_BLOCK,
-    PLACE_BLOCK,
-    DAMAGE_PLAYER,
-    DAMAGE_TAKEN,
-    INVENTORY_EDIT,
-    STAT_EDIT,
-    CELL_EDIT,
-    RIGHT_CLICK,
-    LEFT_CLICK,
-    ;
+public class AbilityAction {
+
+    public final AbilityActionType type;
+    public final Event event;
+
+    public final Player player;
+
+
+
+    public AbilityAction(AbilityActionType type, Event event, Player player) {
+        this.player = player;
+        this.type = type;
+        this.event = event;
+    }
 
 }

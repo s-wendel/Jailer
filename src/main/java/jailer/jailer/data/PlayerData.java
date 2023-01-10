@@ -4,6 +4,7 @@ import jailer.jailer.item.JailerAbilityItem;
 import jailer.jailer.item.JailerEquipmentItem;
 import jailer.jailer.item.JailerStat;
 import jailer.jailer.item.JailerStatData;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ public class PlayerData {
     private transient JailerAbilityItem tool;
     private transient Map<JailerStat, Double> cache;
     private transient Map<JailerStat, Map<String, JailerStatData>> stats;
+
+    public transient HashMap<String, Location> locationMap = new HashMap<>();
 
     public PlayerData(Player player) {
         this.player = player;

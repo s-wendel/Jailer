@@ -32,10 +32,11 @@ public class CharredFlower extends JailerAbilityItem {
     }
 
     @Override
-    public void abilityTrigger(Player player, AbilityAction action) {
+    public void abilityTrigger(AbilityAction action) {
 
-        switch(action) {
+        switch(action.type) {
             case RIGHT_CLICK:
+                Player player = action.player;
                 ItemStack tool = player.getInventory().getItemInMainHand();
                 tool.setAmount(tool.getAmount() - 1);
 

@@ -1,14 +1,12 @@
 package jailer.jailer.item;
 
 import de.tr7zw.nbtapi.NBTItem;
-import jailer.jailer.item.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public abstract class JailerAbilityItem extends JailerItem {
 
@@ -34,7 +32,7 @@ public abstract class JailerAbilityItem extends JailerItem {
         return abilityDescription;
     }
 
-    public abstract void abilityTrigger(Player player, AbilityAction action);
+    public abstract void abilityTrigger(AbilityAction action);
 
     @Override
     public ItemStack toItemStack() {
