@@ -21,17 +21,19 @@ public class Mine {
     private File saveFile;
     private Location spawnLocation;
 
-    public Mine(String name, Location spawnLocation) {
-        this.spawnLocation = spawnLocation;
+    public Mine(String name, File saveFile) {
+        this.saveFile = saveFile;
         this.name = name;
     }
 
     public void setStructure(Location location, Location location2) {
         structure.fill(location, location2, false);
+        spawnLocation = location;
+
     }
 
-    public void placeStructure(Location location) {
-        structure.place(location, false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+    public void placeStructure() {
+        structure.place(spawnLocation, false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
     }
 
     public void load() {
