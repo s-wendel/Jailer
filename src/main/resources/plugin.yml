@@ -1,13 +1,13 @@
-name: Jailer
+name: Seafront
 version: ${project.version}
-main: jailer.jailer.Jailer
+main: seafront.seafront.Seafront
 api-version: 1.19
 authors: [ shwendel, MrEnx0 ]
 depend: [ Citizens ]
-description: Jailer
+description: Core for the Seafront rpg server
 commands:
   items:
-    description: Open an inventory of all Jailer Items
+    description: Open an inventory of all Seafront Items
   mine:
-    permission: jailer.admin.mine
+    permission: seafront.admin.mine
     description: mine command for admins
