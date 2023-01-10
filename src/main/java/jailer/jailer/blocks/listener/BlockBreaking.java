@@ -4,20 +4,13 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import de.tr7zw.nbtapi.NBTBlock;
-import de.tr7zw.nbtapi.NBTItem;
 import jailer.jailer.Jailer;
-import jailer.jailer.blocks.BrokenBlock;
 import jailer.jailer.blocks.JailerBlock;
 import jailer.jailer.data.PlayerData;
 import jailer.jailer.item.JailerStat;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockSupport;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,10 +21,7 @@ import org.bukkit.inventory.ItemStack;
 import com.comphenix.protocol.events.PacketContainer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
@@ -39,20 +29,19 @@ import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATIO
 
 public class BlockBreaking implements Listener {
 
-    private static HashMap<Location, BrokenBlock> breakingBlocks = new HashMap<>();
     private static JailerBlock defaultBlock = JailerBlock.STONE;
 
 
     @EventHandler
     public void onBlockBreak(BlockDamageEvent event) {
-
-        if (breakingBlocks.containsKey(event.getBlock().getLocation())) return;
-
         NBTBlock nbt = new NBTBlock(event.getBlock());
-        JailerBlock block = defaultBlock;
-        if (nbt.getData().hasTag("block_name")) block = JailerBlock.valueOf(nbt.getData().getString("block_name"));
 
-        breakingBlocks.put(event.getBlock().getLocation(), new BrokenBlock(event.getBlock().getLocation(), block.durability));
+        if (nbt.getData().hasTag("block_last_anim")) return;
+
+        JailerBlock block = (nbt.getData().hasTag("block_name") ? JailerBlock.valueOf(nbt.getData().getString("block_name")) : defaultBlock);
+
+        nbt.getData().setInteger("block_damage", block.durability);
+        nbt.getData().setInteger("block_last_anim", 10);
     }
 
     @EventHandler
@@ -70,29 +59,30 @@ public class BlockBreaking implements Listener {
         Block block = player.getTargetBlock(Set.of(Material.AIR, Material.WATER, Material.LAVA), 5);
         Location blockPosition = block.getLocation();
 
-        if (!breakingBlocks.containsKey(blockPosition)) return;
+        NBTBlock nbtBlock = new NBTBlock(block);
 
-        BrokenBlock brokenBlock = breakingBlocks.get(blockPosition);
+        if (!nbtBlock.getData().hasTag("block_last_anim")) return;
 
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
         double miningSpeed = playerData.getStatValue(JailerStat.MINING_SPEED);
 
-        NBTBlock nbtBlock = new NBTBlock(block);
 
 
-        JailerBlock jailerblock = defaultBlock;
-        if (nbtBlock.getData().hasTag("block_name")) jailerblock = JailerBlock.valueOf(nbtBlock.getData().getString("block_name"));
 
-        int progress = brokenBlock.health - (int) miningSpeed;
+        JailerBlock jailerBlock = (nbtBlock.getData().hasTag("block_name") ? JailerBlock.valueOf(nbtBlock.getData().getString("block_name")) : defaultBlock);
+
+
+        int progress = nbtBlock.getData().getInteger("block_damage") - (int) miningSpeed;
 
 
         if (progress <= 0) {
-            player.playSound(event.getPlayer().getLocation(), jailerblock.sound, 1f, 1f);
+            player.playSound(event.getPlayer().getLocation(), jailerBlock.sound, 1f, 1f);
             block.setType(Material.AIR);
             nbtBlock.getData().removeKey("block_name");
-            breakingBlocks.remove(blockPosition);
-            player.getInventory().addItem(jailerblock.lootTable.roll().item.toItemStack());
+            nbtBlock.getData().removeKey("block_last_anim");
+            nbtBlock.getData().removeKey("block_damage");
+            player.getInventory().addItem(jailerBlock.lootTable.roll().item.toItemStack());
             return;
         }
 
@@ -103,13 +93,13 @@ public class BlockBreaking implements Listener {
 
         if(distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
 
-        double animationStage = Math.floor(( (double) (jailerblock.durability - progress) / (double) jailerblock.durability) * 9);
+        double animationStage = Math.floor(( (double) (jailerBlock.durability - progress) / (double) jailerBlock.durability) * 9);
 
-        brokenBlock.health = progress;
+        nbtBlock.getData().setInteger("block_damage", progress);
 
 
-        if (brokenBlock.oldAnimation == (int) animationStage) return;
-        brokenBlock.oldAnimation = (int) animationStage;
+        if (nbtBlock.getData().getInteger("block_last_anim") == (int) animationStage) return;
+        nbtBlock.getData().setInteger("block_last_anim", (int) animationStage);
 
         ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 

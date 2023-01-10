@@ -1,5 +1,7 @@
 package jailer.jailer.data.storage;
 
+import java.util.List;
+
 public interface StorageProvider<I, T> {
 
 
@@ -12,5 +14,7 @@ public interface StorageProvider<I, T> {
 
 
     boolean removeData(I index);
+
+    List<I> keys();
 
 }

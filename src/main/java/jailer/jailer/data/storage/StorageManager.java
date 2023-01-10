@@ -1,6 +1,7 @@
 package jailer.jailer.data.storage;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class StorageManager<I, T> {
 
@@ -40,6 +41,10 @@ public class StorageManager<I, T> {
     public boolean hasData(I index) { return storageProvider.hasData(index); }
     public boolean removeData(I index) { return storageProvider.removeData(index); }
     public T removeCachedData(I index) { return cachedData.remove(index); }
+
+    public List<I> keys() { return storageProvider.keys(); }
+
+    public List<I> cachedKeys() { return cachedData.keySet().stream().toList(); }
 
 
 }
