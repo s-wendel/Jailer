@@ -21,6 +21,7 @@ public class FileStorageProvider<I, T> implements StorageProvider<I, T> {
         this.serializer = serializer;
         this.indexer = indexer;
         this.saveFolder = saveFolder;
+        saveFolder.mkdirs();
     }
 
 
@@ -78,7 +79,8 @@ public class FileStorageProvider<I, T> implements StorageProvider<I, T> {
 
     public List<I> keys() {
         ArrayList<I> files = new ArrayList<>();
-        for (File file : Objects.requireNonNull(saveFolder.listFiles())) {
+        if (saveFolder.listFiles() == null) return files;
+        for (File file : saveFolder.listFiles()) {
             if (file.isFile()) {
                 files.add(indexer.deserialize(file.getName()));
             }

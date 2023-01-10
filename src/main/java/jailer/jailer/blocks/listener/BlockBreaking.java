@@ -61,7 +61,7 @@ public class BlockBreaking implements Listener {
 
         NBTBlock nbtBlock = new NBTBlock(block);
 
-        if (nbtBlock.getData().hasTag("block_last_anim")) return;
+        if (!nbtBlock.getData().hasTag("block_last_anim")) return;
 
         ItemStack itemStack = player.getInventory().getItemInMainHand();
 
