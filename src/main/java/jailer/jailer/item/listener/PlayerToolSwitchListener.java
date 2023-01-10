@@ -2,11 +2,7 @@ package jailer.jailer.item.listener;
 
 import jailer.jailer.Jailer;
 import jailer.jailer.data.PlayerData;
-import jailer.jailer.item.JailerEquipmentItem;
-import jailer.jailer.item.JailerItem;
-import jailer.jailer.item.JailerItemFactory;
-import jailer.jailer.item.JailerStat;
-import org.bukkit.Bukkit;
+import jailer.jailer.item.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,10 +26,9 @@ public class PlayerToolSwitchListener implements Listener {
 
         JailerItem jailerItem = JailerItemFactory.jailerItemFromItemStack(item);
 
-        if (jailerItem instanceof JailerEquipmentItem) {
-            playerData.setTool( (JailerEquipmentItem) jailerItem);
+        if (jailerItem instanceof JailerAbilityItem) {
+            playerData.setTool( (JailerAbilityItem) jailerItem);
         }
-
 
     }
 

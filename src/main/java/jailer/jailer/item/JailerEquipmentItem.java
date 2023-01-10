@@ -1,50 +1,34 @@
 package jailer.jailer.item;
 
-import de.tr7zw.nbtapi.NBT;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class JailerEquipmentItem extends JailerItem {
+public abstract class JailerEquipmentItem extends JailerAbilityItem {
 
-    protected String abilityName;
-    protected List<String> abilityDescription;
-    protected Map<JailerStat, Double> stats;
+    protected Map<JailerStat, String> stats;
     protected int enchantmentSlots;
 
-    public JailerEquipmentItem(String name, Material material, List<String> description, JailerRarity rarity, ItemType itemType, int sellPrice, int enchantmentSlots, String abilityName, List<String> abilityDescription, Map<JailerStat, Double> stats) {
-        super(name, material, description, rarity, itemType, sellPrice);
+    public JailerEquipmentItem(String name, Material material, List<String> description, JailerRarity rarity, ItemType itemType, int sellPrice, int enchantmentSlots, String abilityName, List<String> abilityDescription, Map<JailerStat, String> stats) {
+        super(name, material, description, rarity, itemType, sellPrice, abilityName, abilityDescription);
 
         this.enchantmentSlots = enchantmentSlots;
-        this.abilityName = abilityName;
-        this.abilityDescription = abilityDescription;
         this.stats = stats;
     }
 
-    public boolean hasAbility() {
-        return abilityName != null;
+    public int getEnchantmentSlots() {
+        return enchantmentSlots;
     }
 
-    public String getAbilityName() {
-        return abilityName;
-    }
-
-    public List<String> getAbilityDescription() {
-        return abilityDescription;
-    }
-
-    public Map<JailerStat, Double> getStats() {
+    public Map<JailerStat, String> getStats() {
         return stats;
     }
 
-    public abstract void abilityTrigger(AbilityAction action);
-
+    @Override
     public ItemStack toItemStack() {
 
         List<String> lore = new ArrayList<>();
@@ -53,7 +37,7 @@ public abstract class JailerEquipmentItem extends JailerItem {
         if(!stats.isEmpty()) {
             lore.add("");
             for(JailerStat stat : stats.keySet()) {
-                lore.add(stat.getFormattedStat(stats.get(stat), false));
+                lore.add(stat.getFormattedStat(stats.get(stat)));
             }
         }
 

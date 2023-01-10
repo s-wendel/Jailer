@@ -31,9 +31,12 @@ public class JailerItemFactory {
     }
 
     public static JailerItem jailerItemFromItemStack(ItemStack itemStack) {
-        NBTItem nbtItem = new NBTItem(itemStack);
 
-        return classes.get(nbtItem.getString("name"));
+        if(itemStack == null) {
+            return null;
+        }
+
+        return classes.get(new NBTItem(itemStack).getString("name"));
     }
 
 

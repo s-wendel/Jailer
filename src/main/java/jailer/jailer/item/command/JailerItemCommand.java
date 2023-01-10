@@ -1,8 +1,10 @@
 package jailer.jailer.item.command;
 
+import jailer.jailer.item.AbilityAction;
 import jailer.jailer.item.JailerEquipmentItem;
 import jailer.jailer.item.JailerItem;
 import jailer.jailer.item.JailerItemFactory;
+import jailer.jailer.item.items.consumable.CharredFlower;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

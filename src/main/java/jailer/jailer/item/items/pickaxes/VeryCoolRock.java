@@ -2,6 +2,7 @@ package jailer.jailer.item.items.pickaxes;
 
 import jailer.jailer.item.*;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -20,14 +21,14 @@ public class VeryCoolRock extends JailerEquipmentItem {
                 null,
                 null,
                 Map.of(
-                        JailerStat.MINING_SPEED, 1d,
-                        JailerStat.FORTUNE, 3d
+                        JailerStat.MINING_SPEED, "1",
+                        JailerStat.FORTUNE, "3"
                 )
         );
     }
 
     @Override
-    public void abilityTrigger(AbilityAction action) {
+    public void abilityTrigger(Player player, AbilityAction action) {
         return;
     }
 }

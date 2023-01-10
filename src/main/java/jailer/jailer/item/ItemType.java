@@ -12,6 +12,9 @@ public enum ItemType {
     CHESTPLATE("Chestplate"),
     LEGGINGS("Leggings"),
     BOOTS("Boots"),
+    PLANT("Plant"),
+    PLANTER("Planter"),
+    CONSUMABLE("Consumable")
     ;
 
     private String name;

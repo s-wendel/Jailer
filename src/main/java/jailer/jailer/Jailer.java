@@ -9,6 +9,7 @@ import jailer.jailer.data.storage.FileStorageProvider;
 import jailer.jailer.data.storage.StorageManager;
 import jailer.jailer.blocks.listener.BlockBreaking;
 import jailer.jailer.item.command.JailerItemCommand;
+import jailer.jailer.item.listener.AbilityActionRightClickListener;
 import jailer.jailer.item.listener.PlayerToolSwitchListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,6 +37,7 @@ public final class Jailer extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerToolAutoEquipListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerToolSwitchListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerDataListener(), this);
+        getServer().getPluginManager().registerEvents(new AbilityActionRightClickListener(), this);
     }
 
     @Override

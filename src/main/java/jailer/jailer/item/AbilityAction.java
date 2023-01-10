@@ -9,6 +9,8 @@ public enum AbilityAction {
     INVENTORY_EDIT,
     STAT_EDIT,
     CELL_EDIT,
+    RIGHT_CLICK,
+    LEFT_CLICK,
     ;
 
 }
