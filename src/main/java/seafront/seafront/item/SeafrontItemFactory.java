@@ -13,7 +13,7 @@ public class SeafrontItemFactory {
     public static HashMap<String, SeafrontItem> classes = new HashMap<>();
 
     static {
-        Set<Class<? extends SeafrontItem>> classList = new Reflections("jailer.jailer.item.items").getSubTypesOf(SeafrontItem.class);
+        Set<Class<? extends SeafrontItem>> classList = new Reflections("seafront.seafront.item.items").getSubTypesOf(SeafrontItem.class);
         for(Class<? extends SeafrontItem> clazz : classList) {
             try {
                 SeafrontItem item = clazz.getConstructor().newInstance();

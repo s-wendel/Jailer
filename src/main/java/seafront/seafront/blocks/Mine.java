@@ -3,10 +3,12 @@ package seafront.seafront.blocks;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.block.structure.Mirror;
 import org.bukkit.block.structure.StructureRotation;
 import org.bukkit.structure.Structure;
 import org.bukkit.structure.StructureManager;
+import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,8 @@ public class Mine {
 
     private transient Structure structure = STRUCTURE_MANAGER.createStructure();
     private String saveFilePath;
-    private Location spawnLocation;
+    private Vector spawnLocation;
+    private String world;
 
     public Mine(String name, File saveFile) {
         this.saveFilePath = saveFile.getPath();
@@ -28,12 +31,15 @@ public class Mine {
 
     public void setStructure(Location location, Location location2) {
         structure.fill(location, location2, false);
-        spawnLocation = location;
+        spawnLocation = location.toVector();
+        this.world = location.getWorld().toString();
 
     }
 
     public void placeStructure() {
-        structure.place(spawnLocation, false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
+        World world = Bukkit.getWorld(this.world);
+        if (world == null) return;
+        structure.place(spawnLocation.toLocation(world), false, StructureRotation.NONE, Mirror.NONE, 0, 1, new Random());
     }
 
     public void load() {

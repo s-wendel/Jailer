@@ -1,9 +1,13 @@
 package seafront.seafront.item.items.admin;
 
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
+import org.bukkit.Bukkit;
 import seafront.seafront.Seafront;
 import seafront.seafront.data.PlayerData;
 import org.bukkit.Material;
 import org.bukkit.event.player.PlayerInteractEvent;
+import seafront.seafront.display.Formatter;
 import seafront.seafront.item.AbilityAction;
 import seafront.seafront.item.ItemType;
 import seafront.seafront.item.SeafrontAbilityItem;
@@ -33,14 +37,30 @@ public class MineWand  extends SeafrontAbilityItem {
                 PlayerData playerData = Seafront.getInstance().playerData.getData(action.player);
                 PlayerInteractEvent event = (PlayerInteractEvent)  action.event;
                 if (!event.hasBlock()) return;
+
                 playerData.locationMap.put("mine2", event.getClickedBlock().getLocation());
+                event.setCancelled(true);
+                action.player.sendMessage(Formatter.text("<green>Position 2 for mines set at: " + event.getClickedBlock().getLocation()));
+                action.player.playSound(
+                        Sound.sound()
+                                .type(Key.key("block.note_block.bell"))
+                                .build()
+                );
             }
             case RIGHT_CLICK -> {
                 PlayerData playerData = Seafront.getInstance().playerData.getData(action.player);
                 PlayerInteractEvent event = (PlayerInteractEvent)  action.event;
+                Bukkit.broadcastMessage("ok!2");
                 if (!event.hasBlock()) return;
+                Bukkit.broadcastMessage("ok!");
                 playerData.locationMap.put("mine1", event.getClickedBlock().getLocation());
-
+                event.setCancelled(true);
+                action.player.sendMessage(Formatter.text("<green>Position 1 for mines set at: " + event.getClickedBlock().getLocation()));
+                action.player.playSound(
+                        Sound.sound()
+                                .type(Key.key("block.note_block.bell"))
+                                .build()
+                );
             }
         }
     }
