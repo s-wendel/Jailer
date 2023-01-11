@@ -16,20 +16,21 @@ public class PlayerData {
 
     private transient Player player;
     private transient SeafrontAbilityItem tool;
-    private transient Map<SeafrontStat, Double> cache;
-    private transient Map<SeafrontStat, Map<String, SeafrontStatData>> stats;
+    private transient Map<SeafrontStat, Double> cache = new HashMap<>();
+    private transient Map<SeafrontStat, Map<String, SeafrontStatData>> stats = new HashMap<>();
 
     public transient HashMap<String, Location> locationMap = new HashMap<>();
 
-    public PlayerData(Player player) {
-        this.player = player;
 
-        cache = new HashMap<>();
-        stats = new HashMap<>();
-
+    public PlayerData() {
         for(SeafrontStat stat : SeafrontStat.values()) {
             setStat(stat, new SeafrontStatData(player, "Base Value", stat.getMaterial(), stat.getBaseValue(), -1));
         }
+    }
+
+    public PlayerData(Player player) {
+        this();
+        this.player = player;
     }
 
     public Player getPlayer() {

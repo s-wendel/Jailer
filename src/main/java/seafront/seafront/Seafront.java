@@ -1,13 +1,14 @@
 package seafront.seafront;
 
+import com.google.gson.reflect.TypeToken;
 import seafront.seafront.blocks.Mine;
 import seafront.seafront.blocks.commands.MineCommand;
 import seafront.seafront.data.PlayerData;
 import seafront.seafront.data.listener.PlayerDataListener;
 import seafront.seafront.data.listener.PlayerToolAutoEquipListener;
 import seafront.seafront.data.serialize.GsonSerializer;
-import seafront.seafront.data.serialize.MineSerializer;
 import seafront.seafront.data.serialize.PlayerSerializer;
+import seafront.seafront.data.serialize.StringSerializer;
 import seafront.seafront.data.storage.FileStorageProvider;
 import seafront.seafront.data.storage.StorageManager;
 import seafront.seafront.blocks.listener.BlockBreaking;
@@ -17,6 +18,7 @@ import seafront.seafront.item.listener.AbilityActionRightClickListener;
 import seafront.seafront.item.listener.PlayerToolSwitchListener;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import seafront.seafront.item.listener.SeafrontBlockItemListener;
 
 import java.io.File;
 
@@ -28,15 +30,15 @@ public final class Seafront extends JavaPlugin {
             new StorageManager<Player, PlayerData>(
                     new FileStorageProvider<Player, PlayerData>(
                             new PlayerSerializer(),
-                            new GsonSerializer<PlayerData>(),
+                            new GsonSerializer<PlayerData>(new TypeToken<PlayerData>(){}),
                             getDataFolder())
             );
 
     public final StorageManager<String, Mine> mineManager =
             new StorageManager<>(
                     new FileStorageProvider<String, Mine>(
-                            new GsonSerializer<>(),
-                            new MineSerializer(),
+                            new StringSerializer(),
+                            new GsonSerializer<>(new TypeToken<Mine>(){}),
                             new File(getDataFolder().getPath() + "/structures")
                     )
             );
@@ -54,6 +56,7 @@ public final class Seafront extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerDataListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityActionRightClickListener(), this);
         getServer().getPluginManager().registerEvents(new AbilityActionLeftClickListener(), this);
+        getServer().getPluginManager().registerEvents(new SeafrontBlockItemListener(), this);
 
         for (String string : mineManager.keys()) {
             mineManager.loadData(string);

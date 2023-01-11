@@ -29,7 +29,7 @@ import static com.comphenix.protocol.PacketType.Play.Server.BLOCK_BREAK_ANIMATIO
 
 public class BlockBreaking implements Listener {
 
-    private static JailerBlock defaultBlock = JailerBlock.STONE;
+    private static JailerBlock defaultBlock = JailerBlock.UNBREAKABLE;
 
 
     @EventHandler

@@ -1,5 +1,6 @@
 package seafront.seafront.item.listener;
 
+import org.bukkit.Material;
 import seafront.seafront.Seafront;
 import seafront.seafront.data.PlayerData;
 import org.bukkit.entity.Player;
@@ -22,6 +23,10 @@ public class PlayerToolSwitchListener implements Listener {
         PlayerData playerData = Seafront.getInstance().playerData.getData(player);
 
         if(item == null) {
+            playerData.setTool(null);
+            return;
+        }
+        if (item.getType().equals(Material.AIR)) {
             playerData.setTool(null);
             return;
         }

@@ -6,8 +6,10 @@ import com.google.gson.reflect.TypeToken;
 public class GsonSerializer<T> implements Serializer<T, String>{
 
     private final Gson GSON;
-    public GsonSerializer() {
+    private final TypeToken<T> type;
+    public GsonSerializer(TypeToken<T> type) {
         GSON = new Gson();
+        this.type = type;
     }
     @Override
     public String serialize(T data) {
@@ -16,7 +18,6 @@ public class GsonSerializer<T> implements Serializer<T, String>{
 
     @Override
     public T deserialize(String data) {
-        TypeToken<T> type = new TypeToken() {};
         return GSON.fromJson(data, type.getType());
     }
 }

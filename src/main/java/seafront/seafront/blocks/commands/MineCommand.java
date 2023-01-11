@@ -30,7 +30,7 @@ public class MineCommand implements CommandExecutor {
                 if (!playerData.locationMap.containsKey("mine1") || !playerData.locationMap.containsKey("mine2")) return false;
 
 
-                Mine mine = new Mine(args[1], new File(Seafront.getInstance().getDataFolder().getPath() + "/structures/saves/" + args[1]));
+                Mine mine = new Mine();
                 mine.setStructure(playerData.locationMap.get("mine1").clone(),playerData.locationMap.get("mine2").clone());
 
                 Seafront.getInstance().mineManager.putData(args[1], mine);
