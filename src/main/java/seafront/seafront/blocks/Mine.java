@@ -44,7 +44,7 @@ public class Mine {
                     if (block.getType().equals(Material.AIR)) continue;
                     NBTBlock nbt = new NBTBlock(block);
                     JailerBlock jailerBlock = (nbt.getData().hasTag("block_name") ? JailerBlock.valueOf(nbt.getData().getString("block_name")) : JailerBlock.UNBREAKABLE);
-                    structure.add(new MineBlock(nbt.getData().toString() ,block.getType(), block.getLocation().toVector()));
+                    structure.add(new MineBlock(nbt.getData().asNBTString() ,block.getType(), block.getLocation().toVector()));
 
                 }
             }

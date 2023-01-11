@@ -11,3 +11,5 @@ commands:
   mine:
     permission: seafront.admin.mine
     description: mine command for admins
+  nbt:
+    permission: seafront.admin.nbt

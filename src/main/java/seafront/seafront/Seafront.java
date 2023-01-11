@@ -3,6 +3,7 @@ package seafront.seafront;
 import com.google.gson.reflect.TypeToken;
 import seafront.seafront.blocks.Mine;
 import seafront.seafront.blocks.commands.MineCommand;
+import seafront.seafront.blocks.commands.NBTCommand;
 import seafront.seafront.data.PlayerData;
 import seafront.seafront.data.listener.PlayerDataListener;
 import seafront.seafront.data.listener.PlayerToolAutoEquipListener;
@@ -49,6 +50,7 @@ public final class Seafront extends JavaPlugin {
 
         getCommand("items").setExecutor(new SeafrontItemCommand());
         getCommand("mine").setExecutor(new MineCommand());
+        getCommand("nbt").setExecutor(new NBTCommand());
 
         getServer().getPluginManager().registerEvents(new BlockBreaking(), this);
         getServer().getPluginManager().registerEvents(new PlayerToolAutoEquipListener(), this);
